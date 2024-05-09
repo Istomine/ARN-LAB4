@@ -22,6 +22,8 @@ learning_rate = 0.001 / rho = 0.9 / epsilon = 1e-7 / etc..
 
 La loss fonction est categorical_crossentropy
 ```
+![example1](images/categorical_crossentropy.png)
+
 2. For each experiment excepted the last one (shallow network learning from raw data, shallow network learning from features and CNN)
 
     1. Select a neural network topology and describe the inputs, indicate how many are they, and how many outputs?
@@ -218,14 +220,14 @@ cnn = Model(inputs=input, outputs=cnn_output)
 cnn.compile(optimizer=optimizers.Adam(0.001), loss=losses.BinaryCrossentropy(), metrics=['accuracy'])
 ```
 ```
-Après avoir testé plein de hyperparametre afin d'abaisser la loss de 0.7 qu'on avait de base, on a modifié la fonction d'activation de la sortie à sigmoid, on a liassé l'optimizer a 0.001 et avons changé le nombre d'epoch à 10.
+Après avoir testé plein de hyperparametre afin d'abaisser la loss de 0.7 qu'on avait de base, on a modifié la fonction d'activation de la sortie à sigmoid, on a laissé l'optimizer a 0.001 et avons changé le nombre d'epoch à 10.
 ```
 Avec ces valeurs, on a réussi à avoir ces graphiques :
 ![example3](images/task5/output1.png)
 
 ![example3](images/task5/output2.png)
 ```
-On peut remarquer qu'au niveau de la loss et de l'accuracy deux droite totalement indépendant. Après avoir fait plusieurs test, c'est le mieux qu'on a pu faire. A chaque entrainement les valeurs sur les graphes changeait beaucoup, on n'arrive a expliquer ce comportement très étrange de notre model.
+On peut remarquer qu'au niveau de la loss et de l'accuracy, on a deux droites totalement indépendantes. Après avoir fait plusieurs tests, c'est le mieux qu'on a pu faire. À chaque entraînement, les valeurs sur les graphes changeaient beaucoup, on n'arrive pas à expliquer ce comportement très étrange de notre modèle.
 ```
 ![example3](images/task5/output3.png)
 
@@ -243,6 +245,6 @@ Test Precision: 0.72
 Test Recall: 0.99
 Test F1 Score: 0.84
 
-Il n'empeche que lors de la validation notre model montre des reultats plutot bon avec un f1-score très haut.
-Lorsqu'on regarde le test set ont voit que notre model a du mal a preduire s'il y a effectivement une pneumonie. ce qui est plutot génant car s'il est utilisé dans le monde medical pourrait entrainer des morts. Le mieux dans ce cas aurait été qu'il detecte des cas de pneumonie alors qu'il n'y en ait pas. Dans ce cas, on pourrait effectué un test par un médecin. 
+Il n'empêche que lors de la validation notre modèle montre des résultats plutôt bon avec un f1-score très haut.
+Lorsqu'on regarde le testset, on voit que notre modèle a du mal à prédire s'il y a effectivement une pneumonie. Ce qui est plutôt gênant, car s'il est utilisé dans le monde médical, cela peut entraîner des morts. Le mieux dans ce cas aurait été qu'il détecte des cas de pneumonie alors qu'il n'y en a pas. Dans ce cas, on pourrait effectuer un test par un médecin.
 ```
