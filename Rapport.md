@@ -182,3 +182,40 @@ RMSprop c’est une variante de la descente de gradient stochastique.
 
 
 # 5. Chest X-ray to detect pneumonia
+
+
+Voici le code de notre model CNN :
+```
+input = layers.Input((IMG_HEIGHT, IMG_WIDTH, 1), name='input_8')
+
+l1 = Conv2D(8, (3, 3), padding='same', activation='relu', name='conv_1')(input)
+l1_mp = MaxPooling2D(pool_size=(2, 2), name='max_pooling_1')(l1)
+
+l2 = Conv2D(16, (3, 3), padding='same', activation='relu', name='conv_2')(l1_mp)
+l2_mp = MaxPooling2D(pool_size=(2, 2), name='max_pooling_2')(l2)
+
+l3 = Conv2D(32, (3, 3), padding='same', activation='relu', name='conv_3')(l2_mp)
+l3_mp = MaxPooling2D(pool_size=(2, 2), name='max_pooling_3')(l3)
+
+l4 = Conv2D(64, (3, 3), padding='same', activation='relu', name='conv_4')(l3_mp)
+l4_mp = MaxPooling2D(pool_size=(2, 2), name='max_pooling_4')(l4)
+
+l5 = Conv2D(128, (3, 3), padding='same', activation='relu', name='conv_5')(l4_mp)
+l5_mp = MaxPooling2D(pool_size=(2, 2), name='max_pooling_5')(l5)
+
+flat = Flatten(name='flatten_7')(l5_mp)
+
+
+l6 = Dense(32, activation='relu', name='dens_21')(flat)
+cnn_output = Dense(16, activation='relu', name='dense_22')(l6)
+
+cnn_output = layers.Dense(1, activation='sigmoid',name='dense_23')(cnn_output)
+cnn = Model(inputs=input, outputs=cnn_output)
+
+# Compile CNN model
+cnn.compile(optimizer=optimizers.Adam(0.001), loss=losses.BinaryCrossentropy(), metrics=['accuracy'])
+```
+Après avoir testé plein de hyperparametre afin d'abaisser la loss de 0.7 qu'on avait de base, on a modifié la fonction d'activation de la sortie à sigmoid, on a liassé l'optimizer a 0.001 et avons changé le nombre d'epoch à 10.
+
+Avec ces valeurs, on a réussi à avoir ces graphiques :
+
