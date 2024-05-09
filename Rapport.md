@@ -88,6 +88,97 @@ Malgré l'overfitting vu juste avant, la matrice est plutôt pas mal. Mais si, o
 
 # 3. Digit recogni on from features of the input data
 
+1. What is the learning algorithm being used to optimize the weights of the neural networks?
+```
+RMSprop c’est une variante de la descente de gradient stochastique.
+```
+   1. What are the parameters (arguments) being used by that algorithm?
+    ```
+    Comme on a aucune valeurs explicite, on utilise les valeurs par défaut. 
+    Learning_rate : 0.001
+    Rho : 0.9
+    Momentum : 0.0
+    Epsilon : 1e-7
+    Centered : false
+    Use_ema :false
+    Ema_momentum : 0.99
+    Ema_overwrite_frquency : None
+
+    https://keras.io/api/optimizers/rmsprop/
+    ```
+   2. What loss function is being used ?
+   ```
+    categorical_crossentropy
+    ```
+   3. Please, give the equation(s)
+    ```
+    CE = - ∑p dp log(yp)
+    ```
+2. For each experiment excepted the last one (shallow network learning from raw data, shallow network learning from features and CNN)
+    1. Select a neural network topology and describe the inputs, indicate how many are they, and how many outputs?
+
+    ```
+    La topologie du réseau neuronal est un réseau peu profond (shallow network) avec une couche cachée de 2 neurones et une couche de sortie de 10 neurones correspondant aux classes de sortie (les chiffres de 0 à 9).
+
+    Le nombre de sorties est égal au nombre de classes dans le problème de  classification. Comme il s'agit de la base de données MNIST, qui         contient des chiffres de 0 à 9, il y a 10 classes au total
+    ```
+    2. Compute the number of weights of each model (e.g., how many weights between the input and the hidden layer, how many weights between each pair of layers, biases, etc..) and explain how do you get to the total number of weights.
+
+    ```
+    Comme on a une image de 28x28, le nombre d’orientation qui vaut 8 et pix_p_cell 4. On a donc que le nombre de caractéristiques extraites par image à partir du descripteur HOG vaut height * width * n_orientations / (pix_p_cell * pix_p_cell). En remplaçant les valeurs on obtient 28 * 28 * 8 / (4 * 4) = 392. Le poids de la première couche qui a 2 neurones vaut donc 786, car chaque ca-ractéristique est connectée à deux neurones ce qui fait 2 * 392 connexions donc 784. Comme chaque neurone a un biais on ajoute donc 2 à 784, ce qui nous fait un poids de 786.
+
+    Le poids pour la deuxième couche est égal au nombre de neurones de la première couche * le nombre de neurones de la deuxième. Ce qui nous donne 2 * 10, donc 20. Il faut ensuite ajouter le biais pour chaque neurone de la deuxième couche, donc 10. Ce qui nous fait 20 + 10 donc 30 est le poids de la deuxième couche.
+
+    Le poids total est l’addition des deux couches donc 816 car 786 + 30 = 816.
+
+    ```
+    3. Test at least three different meaningful cases
+    ## 100 neurones, 8 orientations, 4 pix_p_cell sur 10 epochs
+
+    ![example3](images/epochs%2010,%20100%20neurones.png)
+    ![example3](images/epochs%2010,%20100%20neurones%20matrice.png)
+
+    ```
+    Cette mesure a servi de point de départ, on a donc utilisé les même valeurs de paramètres sauf pour celui qui est modifié mais celui-ci sera mentionné.
+    Pour cette première mesure, on peut voir qu’on a de l’overfitting. La courbe de test ne suit pas celle d’entraînement. Quant au loss, il reste quand même assez faible. Si on regarde la matrice on peut voir que la plus grande erreur est pour le chiffre 5 qui est confondu avec le chiffre 3. Autrement avec un peu moin, mais il y a aussi de la confusion avec le chiffre 7 qui est confondu avec le 2. Puis également le 9 qui est confondu avec le 5. 
+
+    ```
+
+    ## Changement du nombre d’orientations à 4
+
+    ![example3](images/epochs%2010,%20100%20neurones,%204%20orientations.png)
+    ![example3](images/epochs%2010,%20100%20neurones,%204%20orientations%20matrice.png)
+
+    ```
+    Pour cette deuxième mesure, on a fait varier le nombre d’orientations. On a plutôt de bons résultats, la courbe de tests ne fait pas une grande descente, mais elle suit bien la courbe d’entraînement. On a un loss relativement faible. Les chiffres les plus confondus reste comme pour le précèdent, le 5 qui est confondu avec le 3. Une nouvelle confusion est apparue de manière plus importante, le chiffre 4 qui est confondu avec le 9. Il y a aussi le 8 qui est confondu avec le 3 et le 7 qui est confondu avec le 9. 
+
+    ```
+    ## Changement du nombre de neurones à 300
+
+    ![example3](images/epochs%2010,%20300%20neurones.png)
+    ![example3](images/epochs%2010,%20300%20neurones%20matrice.png)
+
+    ```
+    Pour la troisième mesure, on a changé cette fois-ci le nombre de neurones. On peut voir qu’on a de l’overfitting, on a complexifié le modèle en augmentant le nombre de neurones.  On a un loss assez bas. Concernant les confusions, le plus grand reste toujours la même, le 5 qui est confondu avec le 3. On a une nouvelle confusion avec le 3 qui est confondu avec le 8. Le reste c’est peu les même que pour la première mesure.
+
+    ```
+
+    ## Changement du pix_p_cell à 7
+
+    ![example3](images/epochs%2010,%20100%20neurones,%20pix_p_cell%207.png)
+    ![example3](images/epochs%2010,%20100%20neurones,%20pix_p_cell%207%20matrice.png)
+
+    ```
+    Pour cette dernière mesure, on a une courbe assez bien, le loss est cependant un peu plus élevé que les précédentes mesures. Les confusions sont donc plus nombreuses. La plus grande confusion est entre le 4 et le 9. Le 3 et le 5 sont souvent confondu avec le 8. Une nouvelle confusion avec le 2 qui est confondu avec le 3. Et sinon de manière assez élevée, on a toujours le 5 qui est avec le 3. 
+
+
+    Le meilleur modèle pour nous est le 2ème avec un nombre d’orientations à 4. Il a un bon loss avec la meilleur courbe sans overfitting.
+
+    ```
+
+
 # 4. Convolu onal neural network digit recogni on
+
+
 
 # 5. Chest X-ray to detect pneumonia
