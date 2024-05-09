@@ -221,8 +221,11 @@ cnn.compile(optimizer=optimizers.Adam(0.001), loss=losses.BinaryCrossentropy(), 
 ```
 ```
 Après avoir testé plein de hyperparametre afin d'abaisser la loss de 0.7 qu'on avait de base, on a modifié la fonction d'activation de la sortie à sigmoid, on a laissé l'optimizer a 0.001 et avons changé le nombre d'epoch à 10.
-```
+
 Avec ces valeurs, on a réussi à avoir ces graphiques :
+
+```
+
 ![example3](images/task5/output1.png)
 
 ![example3](images/task5/output2.png)
